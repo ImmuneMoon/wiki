@@ -1,0 +1,3 @@
+Make sure django is installed
+
+django-admin start-project PROJECT_NAME
