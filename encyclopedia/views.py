@@ -8,14 +8,18 @@ def index(request):
         "entries": util.list_entries()
     })
 
+# Generates html for each entry page from markdown files
 def entry(request, title):
+    # Gets code from .md file that matches the title
     html = convert_md_to_html(title)
     if html != None:
+        # If html is not empty the page is rendered
         return render(request, "encyclopedia/entry.html", {
             "title": title,
             "html": html
         })
     else:
+        # Otherwise an error page is thrown
         return render(request, "encyclopedia/error.html", {
             "no_entry": "No such entry."
         })
@@ -50,31 +54,43 @@ def convert_md_to_html(title):
     # Sets up markdown method
     mark_down = markdown.Markdown()
     if content != None:
-        # Returns con
+        # Returns html converted from  markdown file
         return mark_down.convert(content)
     else:
+        # If no match, returns none
         return None
 
+# Function for search queries
 def search(request):
-    search = request.POST['q']
-    html = convert_md_to_html(search)
+    # Grabs 'q' value from the search box
+    query = request.POST['q']
+    # Converts any matching .md files to html
+    html = convert_md_to_html(query)
     if html != None:
+        # If html has a value, that page is rendered
         return render(request, "encyclopedia/entry.html", {
-            "title": search,
+            "title": query,
             "html": html
         })
-    else:
-        if search != None:
-            entry_list =  util.list_entries()
-            results = []
-            for i in entry_list:
-                if search in entry_list[i]:
-                    results.append(entry_list[i])
-                    return render(request, "encyclopedia/results.html", {
-                        "results": results
-                    })
-        
+    # If html is empty but the query isn't
+    elif query != None:
+        # Creates list of all entries
+        entry_list = util.list_entries()
+        # Compares query value against list to see if it matches any characters in entry_list items and assigns any that match to results
+        results = [item for item in entry_list if query.lower() in item.lower()]
+
+        if results != []:
+            # Passes results to be rendered if results isnt empty
+            return render(request, "encyclopedia/search.html", {
+                "results": results
+            })
         else:
+            # If the results list is empty, error is thrown
             return render(request, "encyclopedia/error.html", {
                 "no_entry": "No such entry."
             })
+    else:
+        # If both html and query is empty, error is thrown
+        return render(request, "encyclopedia/error.html", {
+            "no_entry": "No such entry."
+        })
