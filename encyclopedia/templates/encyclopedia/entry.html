@@ -9,6 +9,6 @@
     <form action="{% url 'wiki:edit' %}" method="POST"> 
         {% csrf_token %}
         <input type="hidden" name="page_name" value="{{ title }}">
-        <button type="submit">Edit Page</button>
+        <button class="btn-primary" type="submit">Edit Page</button>
     </form>
 {% endblock %}

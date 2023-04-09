@@ -165,7 +165,7 @@ def save(request):
 
     else:
         # Otherwise, markdown is constructed
-        mark_down = "# " + title + "\n\n" + mark_down
+        mark_down = "# " + title + "\n\n" + change
         # Saves to file
         util.save_entry(title, mark_down)
         # Constructs html from file for redirect

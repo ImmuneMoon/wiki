@@ -13,7 +13,10 @@
         <div>
             <textarea name="markdown" required>{{ markdown }}</textarea>
         </div>
-        <button type="submit">Save</button>
+        <button class="btn-secondary" type="submit">Save</button>
+    </form>
+    <form action="{% url 'wiki:index' %}">
+        <button class="my-0 btn-danger" type="submit">Cancel</button>
     </form>
 
 {% endblock %}
