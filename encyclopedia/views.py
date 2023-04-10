@@ -9,28 +9,6 @@ def index(request):
         "entries": util.list_entries()
     })
 
-# Prototype code for converting markdown to html without the markdown library
-'''
-import re
-# Converts markdown text to HTML
-def convert_md_to_html(title):
-    # Handles headers
-    title = re.sub(r'(?m)^#{1,6}\s+(.+)$', r'<h\1>\g<2></h\1>', title)
-    
-    # Handles emphasis
-    title = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', title)
-    title = re.sub(r'\*(.*?)\*', r'<em>\1</em>', title)
-    
-    # Handles links
-    title = re.sub(r'\[(.*?)\]\((.*?)\)', r'<a href="\2">\1</a>', title)
-    
-    # Handles paragraphs and line breaks
-    title = re.sub(r'\n\n', r'</p><p>', title)
-    title = re.sub(r'\n', r'<br>', title)
-    title = '<p>' + title + '</p>'
-    
-    return title
-'''
 
 # Converts markdown text to HTML
 def md_to_html(title):
@@ -182,6 +160,7 @@ def random_page(request):
     entry_list = util.list_entries()
     # Generates a random number between 0 and the last entry index position
     index = random.randint(0, len(entry_list) - 1)
+    print('length',len(entry_list),'index',index)
     # Gets the matching page
     page = entry_list[index]
     # Converts to html
